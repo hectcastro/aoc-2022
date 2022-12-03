@@ -103,3 +103,24 @@ fn part2(input: &str) -> u32 {
 
     scores.sum()
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const INPUT: &str = "A Y
+B X
+C Z";
+
+    #[test]
+    fn part1_works() {
+        let result = part1(INPUT);
+        assert_eq!(result, 15);
+    }
+
+    #[test]
+    fn part2_works() {
+        let result = part2(INPUT);
+        assert_eq!(result, 12);
+    }
+}
