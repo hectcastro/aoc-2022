@@ -20,6 +20,7 @@ fn main() {
     let input = read_file_input("05.txt".to_string());
 
     println!("  Part 1: {}", part1(&input));
+    println!("  Part 2: {}", part2(&input));
 }
 
 fn parse_crate(input: &str) -> IResult<&str, Option<&str>> {
@@ -119,6 +120,32 @@ pub fn part1(input: &str) -> String {
         .collect()
 }
 
+pub fn part2(input: &str) -> String {
+    let (_, (mut crate_stacks, moves)) = parse_crate_stacks(input).unwrap();
+
+    for Move { number, from, to } in moves.iter() {
+        let crate_stack_len = crate_stacks[*from as usize].len();
+
+        let crate_stack = crate_stacks[*from as usize]
+            .drain((crate_stack_len - *number as usize)..)
+            .collect::<Vec<&str>>();
+
+        for c in crate_stack.iter() {
+            crate_stacks[*to as usize].push(c);
+        }
+    }
+
+    let result: String = crate_stacks
+        .iter()
+        .map(|v| match v.iter().last() {
+            Some(c) => c,
+            None => "",
+        })
+        .collect();
+
+    result
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -137,5 +164,11 @@ move 1 from 1 to 2";
     fn part1_works() {
         let result = part1(INPUT);
         assert_eq!(result, "CMZ");
+    }
+
+    #[test]
+    fn part2_works() {
+        let result = part2(INPUT);
+        assert_eq!(result, "MCD");
     }
 }
