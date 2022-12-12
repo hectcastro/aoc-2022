@@ -1,5 +1,6 @@
 use aoc::read_file_input;
 
+use itertools::Itertools;
 use nom::{
     branch::alt,
     bytes::complete::tag,
@@ -31,7 +32,7 @@ fn main() {
     let input = read_file_input("10.txt".to_string());
 
     println!("  Part 1: {}", part1(&input));
-    println!("  Part 2: {}", part2(&input));
+    println!("  Part 2: \n\n{}", part2(&input));
 }
 
 fn instructions(input: &str) -> IResult<&str, Vec<Instruction>> {
@@ -76,8 +77,41 @@ pub fn part1(input: &str) -> usize {
     scores.values().sum::<i32>() as usize
 }
 
-pub fn part2(_input: &str) -> String {
-    todo!()
+pub fn part2(input: &str) -> String {
+    let (_, instructions) = instructions(input).unwrap();
+
+    let mut x: i32 = 1;
+    let mut cycles: u32 = 0;
+    let mut crt_pixels: String = "".to_string();
+
+    for instruction in instructions.iter() {
+        for cycle_add in 0..instruction.cycles() {
+            let pixel_id = (cycles as i32 + cycle_add as i32) % 40;
+
+            if ((x - 1)..=(x + 1)).contains(&pixel_id) {
+                crt_pixels.push('#');
+                continue;
+            }
+
+            crt_pixels.push('.');
+        }
+
+        cycles += instruction.cycles();
+
+        match instruction {
+            Noop => {}
+            Add(num) => {
+                x += num;
+            }
+        };
+    }
+
+    crt_pixels
+        .chars()
+        .chunks(40)
+        .into_iter()
+        .map(|chunk| chunk.collect::<String>())
+        .join("\n")
 }
 
 #[cfg(test)]
@@ -237,7 +271,6 @@ noop";
     }
 
     #[test]
-    #[ignore]
     fn part2_works() {
         assert_eq!(
             part2(INPUT),
