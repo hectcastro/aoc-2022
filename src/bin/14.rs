@@ -54,7 +54,6 @@ fn part1(input: &str) -> usize {
 
     loop {
         if current_sand.1 > lowest_rock.1 {
-            println!("break");
             break;
         }
 
