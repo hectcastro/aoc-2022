@@ -249,8 +249,23 @@ fn part1(input: &str) -> usize {
     maxes
 }
 
-fn part2(_input: &str) -> usize {
-    3
+fn part2(input: &str) -> usize {
+    let (_, blueprints) = blueprints(input).unwrap();
+
+    let maxes: usize = blueprints[0..3]
+        .iter()
+        .map(|blueprint| {
+            let max = step_blueprint(&blueprint, Resources::default(), 32)
+                .iter()
+                .map(|v| v.geode)
+                .max()
+                .unwrap();
+
+            max
+        })
+        .product::<usize>();
+
+    maxes
 }
 
 #[cfg(test)]
