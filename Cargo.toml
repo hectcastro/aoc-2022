@@ -8,7 +8,7 @@ default-run = "aoc"
 
 [dependencies]
 glam = "0.29.0"
-itertools = "0.13.0"
+itertools = "0.14.0"
 lending-iterator = "0.1.6"
 nom = "7.1.1"
 petgraph = "0.6.2"
