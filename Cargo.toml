@@ -7,7 +7,7 @@ default-run = "aoc"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-glam = "0.29.0"
+glam = "0.30.2"
 itertools = "0.14.0"
 lending-iterator = "0.1.6"
 nom = "8.0.0"
